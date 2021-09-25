@@ -17,16 +17,7 @@ class Analyzer
 
     target_pieces
   end
-  describe ".to_plain_string" do
-    context "given a new engine with a fresh board" do
-      it "should return the board as a plain string" do
-        engine = Engine.new
-        expect(engine.board.to_plain_string).to be_instance_of(String)
-        expect(engine.board.to_plain_string.size).to be 88
-        expect(engine.board.to_plain_string).to eq(".bm.bm.bm.bmbm.bm.bm.bm..bm.bm.bm.bm.................wm.wm.wm.wmwm.wm.wm.wm..wm.wm.wm.wm")
-      end
-    end
-  end
+
   def get_pieces_by_color(color)
     target_pieces = {}
     pieces = self.get_pieces
