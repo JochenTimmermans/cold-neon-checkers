@@ -30,22 +30,60 @@ class Analyzer
     target_pieces
   end
 
-  def get_active_pieces_by_color(color)
-    target_pieces = {}
+  def get_active_pieces(color)
     pieces = self.get_pieces_by_color(color)
-    pieces.each do |key, piece|
-      if self.can_move(key)
-        target_pieces[key] = piece
+    positions = []
+    pieces.each do |pos_keys, piece|
+      pos_keys_array = pos_keys.split('')
+      position = Position.from_array_keys(pos_keys_array[0], pos_keys_array[1])
+      if can_move(position)
+        positions.push(position)
       end
     end
-
-    target_pieces
   end
 
-  def can_move(key)
-    one, two = key.split('')
-    position = Position.from_array_keys(one, two)
-    piece = board.get_piece_on_position
-    puts piece
+  def can_move(position)
+    self.get_possible_moves_by_position(position).size > 0
+  end
+
+  def get_possible_moves_by_position(position)
+    moves = self.get_moves_by_position(position)
+  end
+
+  def get_moves_by_position(position)
+    piece = engine.get_piece_by_position(position)
+
+    if piece.nil?
+      return []
+    end
+
+    is_white = piece.is_color(White.new)
+    target_y = position.pos_y + (is_white ? - 1 : + 1)
+    target_moves = []
+
+    if position.pos_x > 0
+      target_moves.push(
+        Move.new(
+          position,
+          engine.create_position_from_array_keys(
+            (position.pos_x - 1),
+            target_y
+          )
+        )
+      )
+    end
+
+    if position.pos_x < 7
+      target_moves.push(
+        Move.new(
+          position, engine.create_position_from_array_keys(
+            (position.pos_x + 1),
+            target_y
+          )
+        )
+      )
+    end
+
+    target_moves
   end
 end

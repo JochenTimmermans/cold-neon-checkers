@@ -1,0 +1,3 @@
+class PositionOccupiedError < StandardError
+
+end

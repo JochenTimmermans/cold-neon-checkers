@@ -1,12 +1,17 @@
 require "./lib/checkers/board"
+require "./lib/checkers/engine"
 require "./lib/checkers/position"
 
 describe Board do
 
   describe ".to_array" do
     context "Given a new board" do
-      it "should " do
-
+      it "should return an array representation" do
+        engine = Engine.new
+        board_array = engine.board.to_array
+        expect(board_array).to be_instance_of Array
+        expect(board_array.size).to be 8
+        expect(board_array[0].size).to be 8
       end
     end
   end

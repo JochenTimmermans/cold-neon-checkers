@@ -6,19 +6,6 @@ class Position
     @pos_y = y
   end
 
-  def self.from_string(string)
-    one, two = string.split('')
-    pos_y = nil
-    ('a'..'h').to_a.each_with_index do |value, key|
-      if value == one
-        pos_y = key
-      end
-    end
-    pos_x = two.to_i - 1
-
-    Position.new(pos_y, pos_x)
-  end
-
   def to_s
     letter = ('a'..'h').to_a[@pos_x]
     number = @pos_y + 1

@@ -14,18 +14,24 @@ describe Piece do
   end
 
   describe ".is_color" do
-    context "given a piece of a certain color" do
-      it "should be able to tell which color it is" do
+    context "given a fresh board" do
+      it "should be able to tell which type color the piece on a position is" do
         engine = Engine.new
-        man = Man.new(White.new)
+        position = engine.create_position_from_string("a2")
+        man = engine.get_piece_by_position(position)
 
+        expect(man.class).to be Man
+        expect(man.is_color(Black.new)).to be true
+
+        position = engine.create_position_from_string("a1")
+        empty_field = engine.get_piece_by_position(position)
+        expect(empty_field).to be_nil
+
+        position = engine.create_position_from_string("h8")
+        man = engine.get_piece_by_position(position)
+
+        expect(man.class).to be Man
         expect(man.is_color(White.new)).to be true
-
-        king = King.new(White.new)
-        position = Position.from_string("a2")
-        engine.add_piece_to_position(king, position)
-
-        expect(engine.board.to_array[0][1]).to be king
       end
     end
   end
