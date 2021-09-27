@@ -1,3 +1,5 @@
+require "./lib/checkers/position"
+
 class MoveAnalyzer
   def initialize(move, engine)
     @move = move
@@ -14,21 +16,38 @@ class MoveAnalyzer
     is_man = piece.is_man
     if piece.is_man
 
-      piece_left = @engine.get_piece_left_front_of_position(@move.pos1)
+      piece_left = @engine.get_piece_left_front_of_position(@move.pos1, piece.color.to_s == "b")
+      puts piece_left.to_s
       unless piece_left.nil?
         if piece_left.color.to_s == piece.color.to_s
           return false
         end
       end
 
-      piece_right = @engine.get_piece_right_front_of_position(@move.pos1)
+      piece_right = @engine.get_piece_right_front_of_position(@move.pos1, piece.color.to_s == "b")
       unless piece_right.nil?
         if piece_right.color.to_s == piece.color.to_s
           return false
         end
       end
+
+      targets = []
+
+      if (@move.pos1.pos_x + 1) < 7
+        targets.push(Position.new((@move.pos1.pos_x + 1), (@move.pos1.pos_y - orientation)))
+      end
+
+      if (@move.pos1.pos_x - 1) >= 0
+        targets.push(Position.new((@move.pos1.pos_x - 1), (@move.pos1.pos_y - orientation)))
+      end
+
+      targets.each do |target|
+        if target.to_s == @move.pos2.to_s
+          return true
+        end
+      end
     end
 
-    true
+    false
   end
 end

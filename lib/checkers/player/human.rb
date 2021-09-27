@@ -1,5 +1,5 @@
 class Human < Player
-  def move(move)
+  def make_move(move)
     @engine.move(move)
   end
 end

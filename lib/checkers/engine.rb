@@ -27,10 +27,6 @@ class Engine
   end
 
   def add_piece_to_position(piece, position)
-    if self.position_has_piece(position)
-      raise PositionOccupiedError
-    end
-
     @board.board[position.to_s] = piece
   end
 
@@ -75,8 +71,8 @@ class Engine
 
     # puts "Moved " + move.pos1.to_s + " to " + move.pos2.to_s
 
-    # self.add_piece_to_position(nil, move.pos1)
-    # self.add_piece_to_position(piece, move.pos2)
+    self.add_piece_to_position(nil, move.pos1)
+    self.add_piece_to_position(piece, move.pos2)
     # @board.board[] = nil
     # @board.board[move.pos2] = piece
   end
@@ -119,7 +115,7 @@ class Engine
   def set_up
     @board = Board.new
     blacks = ["b1", "d1", "f1", "h1", "a2", "c2", "e2", "g2", "b3", "d3", "f3", "h3"]
-    whites = ["b6", "d6", "f6", "h6", "a7", "c7", "e7", "g7", "b8", "d8", "f8", "h8"]
+    whites = ["a6", "c6", "e6", "g6", "b7", "d7", "f7", "h7", "a8", "c8", "e8", "g8"]
 
     blacks.each do |position_str|
       position = self.create_position_from_string(position_str)
