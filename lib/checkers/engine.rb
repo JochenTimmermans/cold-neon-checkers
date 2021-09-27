@@ -1,20 +1,24 @@
 require './lib/checkers/board'
+require './lib/checkers/engine/analyzers/move_analyzer'
 require './lib/checkers/exceptions/position_occupied_error'
 require './lib/checkers/piece/color/black'
 require './lib/checkers/piece/color/white'
 require './lib/checkers/piece/king'
 require './lib/checkers/piece/man'
 
+# Engine
+#
+# Handles moves:
+# - make move based on Move
+# - gives back board
+# - raise errors:
+#   - space oc
+#
 class Engine
   attr_accessor :board
 
   def initialize
     self.set_up
-  end
-
-  def play(color)
-    # pieces_in_play = self.get_pieces_of_color(color);
-
   end
 
   def position_has_piece(position)
@@ -51,8 +55,65 @@ class Engine
     Position.new(x, y)
   end
 
+  def move(move)
+    piece = self.get_piece_by_position(move.pos1)
+    if piece.nil?
+      raise PieceNotFoundError
+    end
+
+    target_piece = self.get_piece_by_position(move.pos2)
+    unless target_piece.nil?
+      if piece.color.to_s == target_piece.color.to_s
+        raise PositionOccupiedError
+      end
+    end
+
+    move_analyzer = MoveAnalyzer.new(move, self)
+    unless move_analyzer.is_move_valid
+      raise InvalidMoveError
+    end
+
+    # puts "Moved " + move.pos1.to_s + " to " + move.pos2.to_s
+
+    # self.add_piece_to_position(nil, move.pos1)
+    # self.add_piece_to_position(piece, move.pos2)
+    # @board.board[] = nil
+    # @board.board[move.pos2] = piece
+  end
+
   def create_move(position1, position2)
     Move.new(position1, position2)
+  end
+
+  def get_piece_right_front_of_position(position, topdown = true)
+    if topdown
+      target_y = position.pos_y + 1
+    else
+      target_y = position.pos_y - 1
+    end
+
+    target_x = position.pos_x + 1
+
+    if target_x > 7
+      return nil
+    end
+
+    self.get_piece_by_position(Position.new(target_x, target_y))
+  end
+
+  def get_piece_left_front_of_position(position, topdown = true)
+    if topdown
+      target_y = position.pos_y + 1
+    else
+      target_y = position.pos_y - 1
+    end
+    target_x = position.pos_x - 1
+
+    if target_x < 0
+      return nil
+    end
+
+    self.get_piece_by_position(Position.new(target_x, target_y))
   end
 
   def set_up

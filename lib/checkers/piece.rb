@@ -13,4 +13,12 @@ class Piece
   def is_color(color)
     @color.to_s === color.to_s
   end
+
+  def is_man
+    self.is_a?(Man)
+  end
+
+  def is_king
+    self.is_a?(King)
+  end
 end

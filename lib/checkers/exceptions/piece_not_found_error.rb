@@ -1,0 +1,3 @@
+class PieceNotFoundError < StandardError
+
+end

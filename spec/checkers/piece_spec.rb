@@ -1,4 +1,9 @@
+require "./lib/checkers/engine"
 require "./lib/checkers/piece"
+require "./lib/checkers/piece/king"
+require "./lib/checkers/piece/man"
+require "./lib/checkers/piece/color/white"
+require "./lib/checkers/position"
 
 describe Piece do
   describe ".to_s" do
@@ -32,6 +37,23 @@ describe Piece do
 
         expect(man.class).to be Man
         expect(man.is_color(White.new)).to be true
+      end
+    end
+  end
+
+  describe ".is_man" do
+    man = Man.new(White.new)
+    king = King.new(White.new)
+
+    context "given a fresh board" do
+      it "a piece should know it's a man" do
+        expect(man.is_man).to be true
+        expect(king.is_man).to be false
+      end
+
+      it "a piece should know it's a king" do
+        expect(man.is_king).to be false
+        expect(king.is_king).to be true
       end
     end
   end
