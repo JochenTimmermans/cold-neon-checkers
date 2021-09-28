@@ -15,10 +15,11 @@ require './lib/checkers/piece/man'
 #   - space oc
 #
 class Engine
-  attr_accessor :board
+  attr_accessor :board, :moves
 
   def initialize
     self.set_up
+    @moves = []
   end
 
   def position_has_piece(position)
@@ -58,8 +59,8 @@ class Engine
 
     self.add_piece_to_position(nil, move.pos1)
     self.add_piece_to_position(piece, move.pos2)
-    # @board.board[] = nil
-    # @board.board[move.pos2] = piece
+
+    @moves.push(move)
   end
 
   def validate_move(move)

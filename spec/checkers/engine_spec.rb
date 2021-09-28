@@ -136,6 +136,13 @@ describe Engine do
         expect(engine.get_piece_by_position(pos2)).to be_instance_of piece_original.class
         expect(engine.get_piece_by_position(pos1)).to be_nil
       end
+
+      it "should add the move to the moves variable" do
+        move = Move.create_from_string("b3 a4")
+        Engine.new.move(move)
+
+        expect(engine.moves.size).to be 1
+      end
     end
   end
 end
