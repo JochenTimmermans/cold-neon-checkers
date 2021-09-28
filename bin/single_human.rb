@@ -20,6 +20,7 @@ engine = Engine.new
 
 i = 0
 loop do
+
   i += 1
   puts engine.board.to_s
 

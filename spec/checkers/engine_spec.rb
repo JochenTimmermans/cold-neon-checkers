@@ -155,4 +155,20 @@ describe Engine do
 
     end
   end
+
+  describe ".get_turn_color" do
+    context "Given a fresh board" do
+      engine = Engine.new
+      it "should return white as color" do
+        expect(engine.get_turn_color.to_s).to eq White.new.to_s
+      end
+
+      it "should return black after one move" do
+        move = Move.create_from_string("a6 b5")
+        engine.move(move)
+
+        expect(engine.get_turn_color.to_s).to eq Black.new.to_s
+      end
+    end
+  end
 end

@@ -67,15 +67,14 @@ class Engine
 
   def validate_color(move)
     piece = self.get_piece_by_position(move.pos1)
-    color_turn = self.color_turn
-    if piece.color.to_s != color_turn.to_s
+    if piece.color.to_s != self.get_turn_color.to_s
       raise WrongColorError
     end
 
     true
   end
 
-  def color_turn
+  def get_turn_color
     if @moves.size % 2 == 0
       return White.new
     end
