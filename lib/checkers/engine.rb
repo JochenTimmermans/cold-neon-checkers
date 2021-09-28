@@ -1,6 +1,7 @@
 require './lib/checkers/board'
 require './lib/checkers/engine/analyzers/move_analyzer'
 require './lib/checkers/exceptions/position_occupied_error'
+require './lib/checkers/exceptions/wrong_color_error'
 require './lib/checkers/piece/color/black'
 require './lib/checkers/piece/color/white'
 require './lib/checkers/piece/king'
@@ -55,12 +56,31 @@ class Engine
 
   def move(move)
     self.validate_move(move)
+    self.validate_color(move)
     piece = self.get_piece_by_position(move.pos1)
 
     self.add_piece_to_position(nil, move.pos1)
     self.add_piece_to_position(piece, move.pos2)
 
     @moves.push(move)
+  end
+
+  def validate_color(move)
+    piece = self.get_piece_by_position(move.pos1)
+    color_turn = self.color_turn
+    if piece.color.to_s != color_turn.to_s
+      raise WrongColorError
+    end
+
+    true
+  end
+
+  def color_turn
+    if @moves.size % 2 == 0
+      return White.new
+    end
+
+    Black.new
   end
 
   def validate_move(move)

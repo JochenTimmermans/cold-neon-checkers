@@ -1,0 +1,3 @@
+class WrongColorError < StandardError
+
+end

@@ -114,7 +114,7 @@ describe Engine do
 
       it "should not throw an InvalidMoveError when the move is a valid one" do
         engine = Engine.new
-        move = Move.create_from_string("b3 a4")
+        move = Move.create_from_string("a6 b5")
 
         expect {
           engine.move(move)
@@ -123,10 +123,10 @@ describe Engine do
 
       it "should perform the move on the board" do
         engine = Engine.new
-        move = Move.create_from_string("b3 a4")
+        move = Move.create_from_string("a6 b5")
 
-        pos1 = Position.create_from_string("b3")
-        pos2 = Position.create_from_string("a4")
+        pos1 = Position.create_from_string("a6")
+        pos2 = Position.create_from_string("b5")
 
         piece_original = engine.get_piece_by_position(pos1)
         engine.move(move)
@@ -138,11 +138,21 @@ describe Engine do
       end
 
       it "should add the move to the moves variable" do
-        move = Move.create_from_string("b3 a4")
+        move = Move.create_from_string("a6 b5")
         Engine.new.move(move)
 
         expect(engine.moves.size).to be 1
       end
+
+      it "should throw a WrongColorError when black makes a move during white's turn" do
+        move = Move.create_from_string("b3 a4")
+        engine = Engine.new
+
+        expect {
+          engine.move(move)
+        }.to raise_error WrongColorError
+      end
+
     end
   end
 end
