@@ -17,7 +17,6 @@ class MoveAnalyzer
     if piece.is_man
 
       piece_left = @engine.get_piece_left_front_of_position(@move.pos1, piece.color.to_s == "b")
-      puts piece_left.to_s
       unless piece_left.nil?
         if piece_left.color.to_s == piece.color.to_s
           return false

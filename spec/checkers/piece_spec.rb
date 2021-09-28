@@ -32,7 +32,7 @@ describe Piece do
         empty_field = engine.get_piece_by_position(position)
         expect(empty_field).to be_nil
 
-        position = engine.create_position_from_string("h8")
+        position = engine.create_position_from_string("h7")
         man = engine.get_piece_by_position(position)
 
         expect(man.class).to be Man

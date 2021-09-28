@@ -51,7 +51,18 @@ class Engine
     Position.new(x, y)
   end
 
+
   def move(move)
+    self.validate_move(move)
+    piece = self.get_piece_by_position(move.pos1)
+
+    self.add_piece_to_position(nil, move.pos1)
+    self.add_piece_to_position(piece, move.pos2)
+    # @board.board[] = nil
+    # @board.board[move.pos2] = piece
+  end
+
+  def validate_move(move)
     piece = self.get_piece_by_position(move.pos1)
     if piece.nil?
       raise PieceNotFoundError
@@ -68,13 +79,6 @@ class Engine
     unless move_analyzer.is_move_valid
       raise InvalidMoveError
     end
-
-    # puts "Moved " + move.pos1.to_s + " to " + move.pos2.to_s
-
-    self.add_piece_to_position(nil, move.pos1)
-    self.add_piece_to_position(piece, move.pos2)
-    # @board.board[] = nil
-    # @board.board[move.pos2] = piece
   end
 
   def create_move(position1, position2)

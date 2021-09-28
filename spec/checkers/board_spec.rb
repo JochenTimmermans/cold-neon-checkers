@@ -45,7 +45,7 @@ describe Board do
         engine = Engine.new
         expect(engine.board.to_plain_string).to be_instance_of(String)
         expect(engine.board.to_plain_string.size).to be 88
-        expect(engine.board.to_plain_string).to eq(".bm.bm.bm.bmbm.bm.bm.bm..bm.bm.bm.bm.................wm.wm.wm.wmwm.wm.wm.wm..wm.wm.wm.wm")
+        expect(engine.board.to_plain_string).to eq(".bm.bm.bm.bmbm.bm.bm.bm..bm.bm.bm.bm................wm.wm.wm.wm..wm.wm.wm.wmwm.wm.wm.wm.")
       end
     end
   end

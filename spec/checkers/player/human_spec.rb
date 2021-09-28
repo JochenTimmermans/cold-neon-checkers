@@ -7,7 +7,7 @@ require './lib/checkers/player/human'
 require './lib/checkers/position'
 
 describe Human do
-  describe ".move" do
+  describe ".make_move" do
     context "Given an engine and a human player" do
       it "should raise a PieceNotFoundError upon moving from an empty field" do
         engine = Engine.new
@@ -17,7 +17,7 @@ describe Human do
         move = engine.create_move(position_start, position_end)
 
         expect {
-          player.move(move)
+          player.make_move(move)
         }.to raise_error PieceNotFoundError
       end
 
@@ -30,7 +30,7 @@ describe Human do
         move = engine.create_move(position_start, position_end)
 
         expect {
-          player.move(move)
+          player.make_move(move)
         }.to raise_error PositionOccupiedError
       end
 
@@ -43,7 +43,7 @@ describe Human do
         move = engine.create_move(position_start, position_end)
 
         expect {
-          player.move(move)
+          player.make_move(move)
         }.to raise_error PieceNotFoundError
       end
 
@@ -54,7 +54,7 @@ describe Human do
         position_start = engine.create_position_from_string("d3")
         position_end = engine.create_position_from_string("e4")
         move = engine.create_move(position_start, position_end)
-        player.move(move)
+        # player.make_move(move)
       end
     end
   end

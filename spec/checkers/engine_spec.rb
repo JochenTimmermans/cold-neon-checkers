@@ -16,9 +16,9 @@ describe Engine do
         expect(engine.board.to_array[0][1]).to be_instance_of(Man)
         expect(engine.board.to_array[1][0]).to be_instance_of(Man)
         expect(engine.board.to_array[1][1]).to be_nil
-        expect(engine.board.to_array[5][1]).to be_instance_of(Man)
-        expect(engine.board.to_array[6][0]).to be_instance_of(Man)
-        expect(engine.board.to_array[7][1]).to be_instance_of(Man)
+        expect(engine.board.to_array[5][0]).to be_instance_of(Man)
+        expect(engine.board.to_array[6][1]).to be_instance_of(Man)
+        expect(engine.board.to_array[7][2]).to be_instance_of(Man)
       end
     end
   end
@@ -28,7 +28,7 @@ describe Engine do
       it "should return the board as a plain string" do
         expect(engine.board.to_plain_string).to be_instance_of(String)
         expect(engine.board.to_plain_string.size).to be 88
-        expect(engine.board.to_plain_string).to eq(".bm.bm.bm.bmbm.bm.bm.bm..bm.bm.bm.bm.................wm.wm.wm.wmwm.wm.wm.wm..wm.wm.wm.wm")
+        expect(engine.board.to_plain_string).to eq '.bm.bm.bm.bmbm.bm.bm.bm..bm.bm.bm.bm................wm.wm.wm.wm..wm.wm.wm.wmwm.wm.wm.wm.'
       end
     end
   end
@@ -54,18 +54,8 @@ describe Engine do
         man = Man.new(White.new)
         position = engine.create_position_from_string("a1")
         engine.add_piece_to_position(man, position)
+
         expect(engine.get_piece_by_position(position)).to be man
-
-      end
-
-      it "should raise an error if a spot is already occupied" do
-        king = King.new(White.new)
-        position = engine.create_position_from_string("a2")
-        expect {
-          engine.add_piece_to_position(king, position)
-        }.to raise_error { |error|
-          expect(error).to be_a PositionOccupiedError
-        }
       end
     end
   end
@@ -98,6 +88,7 @@ describe Engine do
       it "should throw a PieceNotFoundError if there is no piece on the original position" do
         engine = Engine.new
         move = Move.create_from_string("a1 a4")
+
         expect {
           engine.move(move)
         }.to raise_error PieceNotFoundError
@@ -106,6 +97,7 @@ describe Engine do
       it "should throw a PositionOccupiedError when the target field has a piece of the same color on it" do
         engine = Engine.new
         move = Move.create_from_string("c2 b3")
+
         expect {
           engine.move(move)
         }.to raise_error PositionOccupiedError
@@ -114,7 +106,7 @@ describe Engine do
       it "should throw an InvalidMoveError when the move is not a valid one" do
         engine = Engine.new
         move = Move.create_from_string("b1 a4")
-        # puts @board
+
         expect {
           engine.move(move)
         }.to raise_error InvalidMoveError
@@ -123,32 +115,27 @@ describe Engine do
       it "should not throw an InvalidMoveError when the move is a valid one" do
         engine = Engine.new
         move = Move.create_from_string("b3 a4")
-        # puts @board
+
         expect {
           engine.move(move)
         }.not_to raise_error
       end
 
-      # it "should perform the move on the board" do
-      #   engine = Engine.new
-      #   move = Move.create_from_string("b3 a4")
-      #
-      #   pos1 = Position.create_from_string("b3")
-      #   pos2 = Position.create_from_string("a4")
-      #
-      #   piece_original = engine.get_piece_by_position(pos1)
-      #
-      #   puts engine.board
-      #
-      #   engine.move(move)
-      #
-      #   puts engine.board
-      #   expect(engine.board).to be_a Board
-      #
-      #   expect(engine.get_piece_by_position(pos2)).to be_a Piece
-      #   expect(engine.get_piece_by_position(pos2)).to be_instance_of piece_original.class
-      #   expect(engine.get_piece_by_position(pos1)).to be_nil
-      # end
+      it "should perform the move on the board" do
+        engine = Engine.new
+        move = Move.create_from_string("b3 a4")
+
+        pos1 = Position.create_from_string("b3")
+        pos2 = Position.create_from_string("a4")
+
+        piece_original = engine.get_piece_by_position(pos1)
+        engine.move(move)
+
+        expect(engine.board).to be_a Board
+        expect(engine.get_piece_by_position(pos2)).to be_a Piece
+        expect(engine.get_piece_by_position(pos2)).to be_instance_of piece_original.class
+        expect(engine.get_piece_by_position(pos1)).to be_nil
+      end
     end
   end
 end
