@@ -17,29 +17,19 @@ require './lib/checkers/position'
 ##
 
 engine = Engine.new
+player_white = Human.new(White.new, engine)
+player_black = Human.new(Black.new, engine)
 
-i = 0
 loop do
-  i += 1
+
   puts engine.board.to_s
+  puts "Move " + (engine.moves.size + 1).to_s
 
-  puts "Enter move #{i} target position"
-  pos1_str = gets
-  puts "Enter move #{i} target position"
-  pos2_str = gets
-
-  pos1 = Position.create_from_string(pos1_str)
-  pos2 = Position.create_from_string(pos2_str)
-  move = Move.new(pos1, pos2)
-
-  begin
-    engine.move(move)
-  rescue PieceNotFoundError
-    puts "ERROR: No piece found at position"
-  rescue PositionOccupiedError
-    puts "ERROR: You already occupy the target position"
-  rescue InvalidMoveError
-    puts "ERROR: Invalid Move"
+  if engine.get_turn_color.to_s == "w"
+    puts "White's turn"
+    player_white.move
+  else
+    puts "black's turn"
+    player_black.move
   end
-
 end

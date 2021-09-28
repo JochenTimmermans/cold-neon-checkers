@@ -6,6 +6,10 @@ class Player
     @engine = engine
   end
 
+  def move()
+
+  end
+
   def make_move(move)
     raise NoMethodError("Override this implementation")
   end
