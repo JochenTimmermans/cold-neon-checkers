@@ -7,7 +7,7 @@ class Player
   end
 
   def move()
-
+    raise NoMethodError("Override this implementation")
   end
 
   def make_move(move)

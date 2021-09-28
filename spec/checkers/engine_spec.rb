@@ -7,11 +7,12 @@ require "./lib/checkers/exceptions/piece_not_found_error"
 require "./lib/checkers/exceptions/position_occupied_error"
 
 describe Engine do
-  engine = Engine.new
 
   describe ".new" do
     context "given a new engine" do
       it "should return a new board filled with pieces" do
+        engine = Engine.new
+
         expect(engine.board.to_array[0][0]).to be_nil
         expect(engine.board.to_array[0][1]).to be_instance_of(Man)
         expect(engine.board.to_array[1][0]).to be_instance_of(Man)
@@ -24,6 +25,7 @@ describe Engine do
   end
 
   describe ".to_plain_string" do
+    engine = Engine.new
     context "given a new engine with a fresh board" do
       it "should return the board as a plain string" do
         expect(engine.board.to_plain_string).to be_instance_of(String)
@@ -34,8 +36,9 @@ describe Engine do
   end
 
   describe ".get_piece_on_position" do
-    context "given a fresh board" do
+    engine = Engine.new
 
+    context "given a fresh board" do
       it "should return the king when requested" do
         position = engine.create_position_from_string("a2")
         expect(engine.get_piece_by_position(position)).to be_instance_of Man
@@ -49,6 +52,8 @@ describe Engine do
   end
 
   describe ".add_piece_to_position" do
+    engine = Engine.new
+
     context "given a fresh board" do
       it "should add a piece to a position" do
         man = Man.new(White.new)
@@ -61,6 +66,8 @@ describe Engine do
   end
 
   describe ".create_position_from_string" do
+    engine = Engine.new
+
     context "given a string" do
       it "should be able to create a position" do
         test_positions = {
@@ -139,7 +146,8 @@ describe Engine do
 
       it "should add the move to the moves variable" do
         move = Move.create_from_string("a6 b5")
-        Engine.new.move(move)
+        engine = Engine.new
+        engine.move(move)
 
         expect(engine.moves.size).to be 1
       end

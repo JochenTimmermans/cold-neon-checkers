@@ -18,7 +18,6 @@ require './lib/checkers/position'
 
 engine = Engine.new
 
-
 i = 0
 loop do
   if engine.get_turn_color.to_s == "w"

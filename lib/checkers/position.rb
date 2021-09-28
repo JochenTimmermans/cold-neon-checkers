@@ -20,9 +20,9 @@ class Position
   end
 
   def self.create_from_string(position_string)
-    one, two = position_string.split('')
-    pos_y = pos_x = nil
-    ('a'..'h').to_a.each_with_index do |value, key|
+    one, two = position_string.chars
+    pos_x = nil
+    ("a".."h").to_a.each_with_index do |value, key|
       if value == one
         pos_x = key
       end

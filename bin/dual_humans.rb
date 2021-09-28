@@ -20,9 +20,9 @@ engine = Engine.new
 player_white = Human.new(White.new, engine)
 player_black = Human.new(Black.new, engine)
 
-loop do
+puts engine.board.to_s
 
-  puts engine.board.to_s
+loop do
   puts "Move " + (engine.moves.size + 1).to_s
 
   if engine.get_turn_color.to_s == "w"
@@ -32,4 +32,6 @@ loop do
     puts "black's turn"
     player_black.move
   end
+
+  puts engine.board.to_s
 end

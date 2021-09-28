@@ -26,10 +26,10 @@ class MoveGenerator
   end
 
   def get_active_pieces_for_color(color)
-    pieces = self.get_pieces_for_color(color)
+    pieces = get_pieces_for_color(color)
     active = {}
     pieces.each do |key, piece|
-      moves = self.get_moves_for_position(Position.create_from_string(key));
+      moves = get_moves_for_position(Position.create_from_string(key));
       if !moves.nil? && moves.size > 0
         active[key] = piece
       end

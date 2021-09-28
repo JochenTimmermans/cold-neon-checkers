@@ -5,7 +5,7 @@ class Board
 
   def initialize
     super
-    @board = self.generate_board
+    @board = generate_board
   end
 
   def to_array
@@ -36,7 +36,7 @@ class Board
 
   def to_s
     output = "\n    A   B   C   D   E   F   G   H\n"
-    board_array = self.to_array
+    board_array = to_array
     board_array.each_with_index do |line, index1|
       line.each_with_index do |value, index2|
         content = ""
@@ -44,20 +44,18 @@ class Board
           output += " " + (index1 + 1).to_s + " "
         end
 
-        if value.nil?
-          content += "    "
+        content += if value.nil?
+          "    "
+        elsif value.color.to_s === "w"
+          " " + value.to_s.cyan + " "
         else
-          if (value.color.to_s === "w")
-            content += " " + (value.to_s).cyan + " "
-          else
-            content += " " + (value.to_s).black + " "
-          end
+          " " + value.to_s.black + " "
         end
 
-        if (index1 + index2) % 2 === 0
-          output += content.on_light_yellow
+        output += if (index1 + index2) % 2 === 0
+          content.on_light_yellow
         else
-          output += content.on_green
+          content.on_green
         end
 
       end
@@ -69,7 +67,7 @@ class Board
 
   def to_plain_string
     output = ""
-    board_array = self.to_array
+    board_array = to_array
     board_array.each_with_index do |line, index1|
       line.each_with_index do |value, index2|
         if value.nil?
@@ -88,8 +86,8 @@ class Board
     board = {}
     letters = "abcdefgh"
     numbers = "12345678"
-    letters.split('').each do |l|
-      numbers.split('').each do |n|
+    letters.chars.each do |l|
+      numbers.chars.each do |n|
         board[l + n] = nil
       end
     end
