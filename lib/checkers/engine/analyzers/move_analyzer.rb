@@ -7,13 +7,12 @@ class MoveAnalyzer
   end
 
   # Checks whether the move is diagonal and only one apart
-  def is_move_valid()
+  def is_move_valid
     # how to determine a valid move?
     # one for man, multiple for king
     piece = @engine.get_piece_by_position(@move.pos1)
-
     orientation = piece.color.to_s == "b" ? -1 : 1
-    is_man = piece.is_man
+
     if piece.is_man
 
       piece_left = @engine.get_piece_left_front_of_position(@move.pos1, piece.color.to_s == "b")

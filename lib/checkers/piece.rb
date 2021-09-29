@@ -15,10 +15,10 @@ class Piece
   end
 
   def is_man
-    self.is_a?(Man)
+    is_a?(Man)
   end
 
   def is_king
-    self.is_a?(King)
+    is_a?(King)
   end
 end
