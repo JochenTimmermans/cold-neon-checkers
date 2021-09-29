@@ -1,10 +1,14 @@
+require "./lib/checkers/engine/analyzers/move_analyzer"
 require "./lib/checkers/engine"
-require "./lib/checkers/engine/analyzer"
-require "./lib/checkers/move"
-require "./lib/checkers/piece/color/white"
-require "./lib/checkers/position"
 
-describe Analyzer do
+describe MoveAnalyzer do
+  engine = Engine.new
+  describe ".get_all_moves_for_color" do
+    it "should give back all pieces that can move for a color" do
+      engine = Engine.new
+      expect(engine.get_all_moves_for_color(Black.new)).to be 4
+    end
+  end
   # engine = Engine.new
   # analyzer = Analyzer.new(engine)
   #
@@ -57,5 +61,5 @@ describe Analyzer do
   #     end
   #   end
   # end
-
 end
+

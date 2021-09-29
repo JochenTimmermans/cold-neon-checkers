@@ -93,7 +93,7 @@ describe Position do
 
         test_positions.each do |key, value|
           x, y = value
-          position = engine.create_position_from_array_keys(x, y)
+          position = Position.new(x, y)
           expect(position.to_s).to eq key
         end
 
