@@ -7,7 +7,7 @@ class Position
   end
 
   def to_s
-    letter = ('a'..'h').to_a[@pos_x]
+    letter = ("a".."h").to_a[@pos_x]
     number = @pos_y + 1
 
     letter.to_s + number.to_s
