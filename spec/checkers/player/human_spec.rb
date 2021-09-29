@@ -12,8 +12,8 @@ describe Human do
       it "should raise a PieceNotFoundError upon moving from an empty field" do
         engine = Engine.new
         player = Human.new(White.new, engine)
-        position_start = Position.create_from_string("a1")
-        position_end = Position.create_from_string("b2")
+        position_start = Position.from_string("a1")
+        position_end = Position.from_string("b2")
         move = engine.create_move(position_start, position_end)
 
         expect {
@@ -25,8 +25,8 @@ describe Human do
         engine = Engine.new
         player = Human.new(Black.new, engine)
 
-        position_start = engine.create_position_from_string("a2")
-        position_end = engine.create_position_from_string("b3")
+        position_start = Position.from_string("a2")
+        position_end = Position.from_string("b3")
         move = engine.create_move(position_start, position_end)
 
         expect {
@@ -38,8 +38,8 @@ describe Human do
         engine = Engine.new
         player = Human.new(White.new, engine)
 
-        position_start = engine.create_position_from_string("a1")
-        position_end = engine.create_position_from_string("b2")
+        position_start = Position.from_string("a1")
+        position_end = Position.from_string("b2")
         move = engine.create_move(position_start, position_end)
 
         expect {
@@ -51,8 +51,8 @@ describe Human do
         engine = Engine.new
         player = Human.new(White.new, engine)
 
-        position_start = engine.create_position_from_string("d3")
-        position_end = engine.create_position_from_string("e4")
+        position_start = Position.from_string("d3")
+        position_end = Position.from_string("e4")
         move = engine.create_move(position_start, position_end)
         # player.make_move(move)
       end

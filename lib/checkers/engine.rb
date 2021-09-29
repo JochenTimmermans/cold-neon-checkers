@@ -24,8 +24,12 @@ class Engine
 
   attr_accessor :board, :moves
 
-  def initialize
-    set_up
+  def initialize(blank = false)
+    if blank
+      empty_board
+    else
+      set_up
+    end
     @moves = []
   end
 
@@ -50,13 +54,29 @@ class Engine
     whites = %w[a6 c6 e6 g6 b7 d7 f7 h7 a8 c8 e8 g8]
 
     blacks.each do |position_str|
-      position = create_position_from_string(position_str)
+      position = Position.from_string(position_str)
       add_piece_to_position(Man.new(Black.new), position)
     end
 
     whites.each do |position_str|
-      position = create_position_from_string(position_str)
+      position = Position.from_string(position_str)
       add_piece_to_position(Man.new(White.new), position)
+    end
+  end
+
+  def empty_board
+    @board = Board.new
+    blacks = %w[b1 d1 f1 h1 a2 c2 e2 g2 b3 d3 f3 h3]
+    whites = %w[a6 c6 e6 g6 b7 d7 f7 h7 a8 c8 e8 g8]
+
+    blacks.each do |position_str|
+      position = Position.from_string(position_str)
+      add_piece_to_position(nil, position)
+    end
+
+    whites.each do |position_str|
+      position = Position.from_string(position_str)
+      add_piece_to_position(nil, position)
     end
   end
 

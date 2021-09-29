@@ -19,7 +19,7 @@ class Position
     [pos_x.to_i, pos_y.to_i]
   end
 
-  def self.create_from_string(position_string)
+  def self.from_string(position_string)
     one, two = position_string.chars
     pos_x = nil
     ("a".."h").to_a.each_with_index do |value, key|

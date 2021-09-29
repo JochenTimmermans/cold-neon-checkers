@@ -132,8 +132,8 @@ describe Engine do
         engine = Engine.new
         move = Move.create_from_string("a6 b5")
 
-        pos1 = Position.create_from_string("a6")
-        pos2 = Position.create_from_string("b5")
+        pos1 = Position.from_string("a6")
+        pos2 = Position.from_string("b5")
 
         piece_original = engine.get_piece_by_position(pos1)
         engine.move(move)

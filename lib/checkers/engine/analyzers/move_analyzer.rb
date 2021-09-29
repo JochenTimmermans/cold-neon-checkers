@@ -1,4 +1,5 @@
 require "./lib/checkers/position"
+require "./lib/checkers/move"
 
 module MoveAnalyzer
   # Checks whether the move is diagonal and only one apart
@@ -71,6 +72,7 @@ module MoveAnalyzer
   end
 
   def get_moves_by_position(position)
+    engine = get_engine
     piece = engine.get_piece_by_position(position)
 
     if piece.nil?

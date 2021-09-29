@@ -9,8 +9,8 @@ class Human < Player
     puts "Enter move target position"
     pos2_str = gets
 
-    pos1 = Position.create_from_string(pos1_str)
-    pos2 = Position.create_from_string(pos2_str)
+    pos1 = Position.from_string(pos1_str)
+    pos2 = Position.from_string(pos2_str)
     move = Move.new(pos1, pos2)
 
     begin
