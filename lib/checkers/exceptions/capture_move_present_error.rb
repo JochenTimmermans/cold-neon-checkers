@@ -1,0 +1,3 @@
+class CaptureMovePresentError < StandardError
+
+end

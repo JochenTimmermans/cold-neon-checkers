@@ -11,35 +11,53 @@ module MoveAnalyzer
     orientation = piece.color.to_s == "b" ? -1 : 1
 
     if piece.is_man
-      piece_left = engine.get_piece_left_front_of_position(move.pos1, piece.color.to_s == "b")
-      unless piece_left.nil?
-        if piece_left.color.to_s == piece.color.to_s
-          return false
+      moves = get_moves_by_position(move.pos1)
+      priority_moves = get_priority_moves_by_position(move.pos1)
+      moves.each do |move|
+        target_piece = engine.get_piece_by_position(move.pos2)
+        if target_piece.nil?
+          next
         end
-      end
 
-      piece_right = engine.get_piece_right_front_of_position(move.pos1, piece.color.to_s == "b")
-      unless piece_right.nil?
-        if piece_right.color.to_s == piece.color.to_s
-          return false
+        if target_piece.is_color(piece.color)
+          next
         end
+        # - if other color, check position behind that. if empty, add move to moves and priority
+
+
       end
 
-      targets = []
-
-      if (move.pos1.pos_x + 1) < 7
-        targets.push(Position.new((move.pos1.pos_x + 1), (move.pos1.pos_y - orientation)))
-      end
-
-      if (move.pos1.pos_x - 1) >= 0
-        targets.push(Position.new((move.pos1.pos_x - 1), (move.pos1.pos_y - orientation)))
-      end
-
-      targets.each do |target|
-        if target.to_s == move.pos2.to_s
-          return true
-        end
-      end
+      # puts moves
+      # exit
+      # piece_left = engine.get_piece_left_front_of_position(move.pos1, piece.color.to_s == "b")
+      # unless piece_left.nil?
+      #   if piece_left.color.to_s == piece.color.to_s
+      #     return false
+      #   end
+      # end
+      #
+      # piece_right = engine.get_piece_right_front_of_position(move.pos1, piece.color.to_s == "b")
+      # unless piece_right.nil?
+      #   if piece_right.color.to_s == piece.color.to_s
+      #     return false
+      #   end
+      # end
+      #
+      # targets = []
+      #
+      # if (move.pos1.pos_x + 1) < 7
+      #   targets.push(Position.new((move.pos1.pos_x + 1), (move.pos1.pos_y - orientation)))
+      # end
+      #
+      # if (move.pos1.pos_x - 1) >= 0
+      #   targets.push(Position.new((move.pos1.pos_x - 1), (move.pos1.pos_y - orientation)))
+      # end
+      #
+      # targets.each do |target|
+      #   if target.to_s == move.pos2.to_s
+      #     return true
+      #   end
+      # end
     end
 
     false
@@ -107,6 +125,18 @@ module MoveAnalyzer
     end
 
     target_moves
+  end
+
+  def get_priority_moves_by_position(position)
+    target_moves = get_moves_by_position(position)
+    priority_moves = []
+    target_moves.each do |move|
+      if move.is_priority
+        priority_moves.push(move)
+      end
+    end
+
+    priority_moves
   end
 
   def validate_color(move)

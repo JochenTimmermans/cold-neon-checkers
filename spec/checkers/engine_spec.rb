@@ -2,6 +2,7 @@ require "./lib/checkers/engine"
 require "./lib/checkers/move"
 require "./lib/checkers/piece/color"
 require "./lib/checkers/position"
+require "./lib/checkers/exceptions/capture_move_present_error"
 require "./lib/checkers/exceptions/invalid_move_error"
 require "./lib/checkers/exceptions/piece_not_found_error"
 require "./lib/checkers/exceptions/position_occupied_error"
@@ -94,7 +95,7 @@ describe Engine do
     context "given a move" do
       it "should throw a PieceNotFoundError if there is no piece on the original position" do
         engine = Engine.new
-        move = Move.create_from_string("a1 a4")
+        move = Move.from_string("a1 a4")
 
         expect {
           engine.move(move)
@@ -103,7 +104,7 @@ describe Engine do
 
       it "should throw a PositionOccupiedError when the target field has a piece of the same color on it" do
         engine = Engine.new
-        move = Move.create_from_string("c2 b3")
+        move = Move.from_string("c2 b3")
 
         expect {
           engine.move(move)
@@ -112,7 +113,7 @@ describe Engine do
 
       it "should throw an InvalidMoveError when the move is not a valid one" do
         engine = Engine.new
-        move = Move.create_from_string("b1 a4")
+        move = Move.from_string("b1 a4")
 
         expect {
           engine.move(move)
@@ -121,7 +122,7 @@ describe Engine do
 
       it "should not throw an InvalidMoveError when the move is a valid one" do
         engine = Engine.new
-        move = Move.create_from_string("a6 b5")
+        move = Move.from_string("a6 b5")
 
         expect {
           engine.move(move)
@@ -130,7 +131,7 @@ describe Engine do
 
       it "should perform the move on the board" do
         engine = Engine.new
-        move = Move.create_from_string("a6 b5")
+        move = Move.from_string("a6 b5")
 
         pos1 = Position.from_string("a6")
         pos2 = Position.from_string("b5")
@@ -145,7 +146,7 @@ describe Engine do
       end
 
       it "should add the move to the moves variable" do
-        move = Move.create_from_string("a6 b5")
+        move = Move.from_string("a6 b5")
         engine = Engine.new
         engine.move(move)
 
@@ -153,7 +154,7 @@ describe Engine do
       end
 
       it "should throw a WrongColorError when black makes a move during white's turn" do
-        move = Move.create_from_string("b3 a4")
+        move = Move.from_string("b3 a4")
         engine = Engine.new
 
         expect {
@@ -161,6 +162,17 @@ describe Engine do
         }.to raise_error WrongColorError
       end
 
+      it "should ascertain capture moves and raise an error when ignoring the capture move" do
+        engine = Engine.new
+        puts engine.empty_board
+        engine.add_piece_to_position(Man.new(Black.new), Position.from_string("d5"))
+        engine.add_piece_to_position(Man.new(White.new), Position.from_string("c6"))
+        puts engine.board
+        expect {
+          engine.move(Move.from_string("c6 b5"))
+        }.to raise_error CaptureMovePresentError
+        # engine.move(Move.from_string("a6 b5"))
+      end
     end
   end
 
@@ -172,11 +184,12 @@ describe Engine do
       end
 
       it "should return black after one move" do
-        move = Move.create_from_string("a6 b5")
+        move = Move.from_string("a6 b5")
         engine.move(move)
 
         expect(engine.get_turn_color.to_s).to eq Black.new.to_s
       end
     end
   end
+
 end
